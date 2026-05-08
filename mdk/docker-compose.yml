@@ -1,0 +1,33 @@
+services:
+  xeyes:
+    image: mdk-xeyes:latest
+    build:
+      context: ./xeyes
+    container_name: xeyes-app
+    environment:
+      DISPLAY: ${DISPLAY}
+    volumes:
+      - ${X11_SOCKET:-/tmp/.X11-unix}:/tmp/.X11-unix
+    command: ["xeyes", "-geometry", "300x180"]
+
+  calc:
+    image: mdk-calc:latest
+    build:
+      context: ./calc
+    container_name: calc-app
+    environment:
+      DISPLAY: ${DISPLAY}
+    volumes:
+      - ${X11_SOCKET:-/tmp/.X11-unix}:/tmp/.X11-unix
+    command: ["java", "-jar", "/opt/calc/calc.jar"]
+
+  python-gui:
+    image: mdk-python-gui:latest
+    build:
+      context: ./python-gui
+    container_name: python-gui-app
+    environment:
+      DISPLAY: ${DISPLAY}
+    volumes:
+      - ${X11_SOCKET:-/tmp/.X11-unix}:/tmp/.X11-unix
+    command: ["python3", "/opt/app/app.py"]
